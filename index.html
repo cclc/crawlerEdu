@@ -1,0 +1,153 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>index of crawler</title>
+    <style type="text/css">
+        table {
+            border-collapse: collapse;
+            border: 1px solid #999;
+        }
+        
+        table td {
+            border-top: 0;
+            border-right: 1px solid #999;
+            border-bottom: 1px solid #999;
+            border-left: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <table>
+        <tr>
+            <td colspan="3">
+                抓取状态：
+                <div id="crawler_status">
+                </div>
+            </td>
+            <td>
+                <input type="button" name="start_crawler" id="start_crawler" value="开始" onclick="start_crawler()">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="3">
+                数据总量：
+                <div id="all_rows"></div>
+            </td>
+            <td>
+                <input type="button" name="show_all_rows" id="show_all_rows" value="开始" onclick="show_all_rows()">
+            </td>
+        </tr>
+        <tr>
+            <td>抓取起点</td>
+            <td>-</td>
+            <td>抓取终点</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                <input type="text" name="start" id="start">
+            </td>
+            <td>
+                -
+            </td>
+            <td>
+                <input type="text" name="end" id="end">
+            </td>
+            <td>
+                <input type="button" name="start_download_picture" id="start_download_picture" value="开始" onclick="start_download_picture()">
+            </td>
+        </tr>
+    </table>
+    <script type="text/javascript">
+        var xmlHttp
+        var xmlHttp1
+        var xmlHttp2
+        var xmlHttp3
+        var xmlHttp4
+        var xmlHttp5
+        var xmlHttp6
+        var xmlHttp7
+        var xmlHttp8
+        var xmlHttp9
+        var xmlHttp10
+        var xmlHttp_crawler
+        var num
+        //显示总的数据条数
+        function show_all_rows() {
+            xmlHttp = GetXmlHttpObject()
+            if (xmlHttp == null) {
+                alert("Browser does not support HTTP Request")
+                return
+            }
+            var url = "show_all_rows.php"
+            xmlHttp.onreadystatechange = stateChanged
+            xmlHttp.open("GET", url, true)
+            xmlHttp.send(null)
+        }
+
+        function stateChanged() {
+            if (xmlHttp.readyState == 4 || xmlHttp.responseText != "") {
+                document.getElementById("all_rows").innerHTML = xmlHttp.responseText
+            }
+        }
+
+        //抓取
+        function start_crawler() {
+            xmlHttp_crawler = GetXmlHttpObject()
+            if (xmlHttp_crawler == null) {
+                alert("Browser does not support HTTP Request")
+                return
+            }
+            var url = "crawler.php"
+            xmlHttp_crawler.onreadystatechange = crawler_end
+            xmlHttp_crawler.open("GET", url, false)
+            xmlHttp_crawler.send(null)
+        }
+
+        function crawler_end() {
+            if (xmlHttp_crawler.readyState == 4 || xmlHttp_crawler.responseText != "") {
+                alert(xmlHttp_crawler.responseText)
+                document.getElementById("crawler_status").innerHTML = xmlHttp_crawler.responseText
+            }
+        }
+
+        //下载图片
+        function start_download_picture(num) {
+            var all_rows = document.getElementById("all_rows").value
+            if (typeof (all_rows) == "undefined" || all_rows == "") {
+                alert("请先获得数据总量")
+                return
+            }
+            var num = 10
+            var count = all_rows / num
+            var url = "download.php"
+            //1
+            var content1 = url + "?start=0" + "&end=" + count
+            xmlHttp1.onreadystatechange = function () {
+                alert("1 finished");
+            }
+            xmlHttp1.open("GET", url, true)
+            xmlHttp1.send(null)
+        }
+
+        function GetXmlHttpObject() {
+            var xmlHttp = null;
+            try {
+                // Firefox, Opera 8.0+, Safari
+                xmlHttp = new XMLHttpRequest();
+            } catch (e) {
+                // Internet Explorer
+                try {
+                    xmlHttp = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    xmlHttp = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+            }
+            return xmlHttp;
+        }
+    </script>
+</body>
+
+</html>
