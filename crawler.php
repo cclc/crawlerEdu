@@ -1,7 +1,7 @@
 <?php
 date_default_timezone_set('Asia/Shanghai');
 require_once 'simple_html_dom.php';
-$mysqli = new mysqli("localhost","root","Luchen23","crawler");
+$mysqli = new mysqli("localhost","root","password","crawler");
 $mysqli -> query("set names 'UTF8'");
 $url ="http://cnodejs.org";
 $pageUrl ="/?tab=all&page=";

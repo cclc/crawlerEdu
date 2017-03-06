@@ -2,7 +2,7 @@
 set_time_limit(0); //保证php程序运行不超时退出
 $start = $_GET['start'];
 $end = $_GET['end'];
-$mysqli = new mysqli("localhost","root","Luchen23","crawler");
+$mysqli = new mysqli("localhost","root","password","crawler");
 if(!$mysqli)
 {
     die('Could not connect: ' . mysql_error());
@@ -17,7 +17,7 @@ while($row = mysqli_fetch_array($result,MYSQLI_ASSOC))
     {
         $file_url = 'https:'.$file_url;
     }
-    $file_path = "/Users/luchen/Sites/crawlerEdu/crawler-img/".$file_name[2].".jpg";
+    $file_path = "/Users/username/Sites/crawlerEdu/crawler-img/".$file_name[2].".jpg";
     $content = file_get_contents($file_url);
     if(file_put_contents($file_path,$content))
     {
